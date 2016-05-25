@@ -1,0 +1,612 @@
+@import 'variables';
+@import 'mixins';
+
+// ----------------------------------------------------------------------------
+// -------------- CSS RULES ---------------------------------------------------
+// ----------------------------------------------------------------------------
+
+@include font-face('Open sans', '../fonts/opensans.ttf', 'truetype', normal, normal);
+@include font-face('Open sans', '../fonts/opensansbold.ttf', 'truetype', normal, 700);
+@include font-face('Open sans', '../fonts/opensansextrabold.ttf', 'truetype', normal, 900);
+@include font-face('Open sans', '../fonts/opensansitalic.ttf', 'truetype', italic, normal);
+@include font-face('Font awesome', '../fonts/fontawesome-webfont.ttf', 'truetype', normal, normal);
+
+@keyframes slider {
+  from { opacity: .5; }
+  to { opacity: 1; }
+}
+
+.content {
+  margin: auto;
+  width: 1170px;
+}
+
+.border {
+  border: 1px solid $color-black;
+}
+
+
+// ----------------------------------------------------------------------------
+// -----------HEADER SECTION---------------------------------------------------
+// ----------------------------------------------------------------------------
+header {
+  background-color: $color-main;
+  position: relative;
+
+  %open-sans-09 {
+    @include sans-serif('Open sans', .9em);
+  }
+
+  &:before {
+    background: $color-white;
+    bottom: 60px;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .header-top {
+    @include flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 15px 0;
+
+    .cover {
+      display: inline-block;
+      flex-basis: 270px;
+      font-weight: bold;
+
+      img {
+        border: 2px solid $color-white;
+        float: left;
+        margin-right: 15px;
+      }
+    }
+
+    h1 {
+      @extend %open-sans-09;
+      color: $color-white;
+      font-weight: bold;
+      margin-top: -5px;
+    }
+  }
+
+  .button {
+    background: $color-button;
+    border-radius: 5px;
+    color: $color-white;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-shadow: 0 0 1px $color-button-text-shadow;
+    transition: .3s;
+
+    &:hover {
+      background: $color-button-hover;
+      cursor: pointer;
+    }
+  }
+
+  .socials {
+    @include flex;
+    flex-basis: 310px;
+    justify-content: flex-end;
+
+    > * {
+      margin-left: 20px;
+    }
+
+    .button {
+      @extend %open-sans-09;
+      margin-top: 30px;
+    }
+  }
+
+  nav {
+    %hover {
+      background: $color-white;
+      content: '';
+      height: 5px;
+      left: 0;
+      position: absolute;
+      top: -15px;
+      width: 100%;
+    }
+
+    ul {
+      @include flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    a {
+      @include sans-serif('Open sans', 1rem);
+      color: $color-white;
+      font-weight: 900;
+      position: relative;
+      text-decoration: none;
+
+      &:hover {
+        &:before {
+          @extend %hover;
+        }
+      }
+    }
+
+    .selected {
+      &:before {
+        @extend %hover;
+      }
+    }
+
+    input {
+      @extend %open-sans-09;
+      border: 0;
+      color: $color-white;
+      font-weight: normal;
+      width: 205px;
+
+      &::-webkit-input-placeholder {
+        color: $color-white;
+        opacity: .7;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// -------------MAIN SECTION--------------------------------------------------
+// ---------------------------------------------------------------------------
+.main {
+  @include flex;
+
+  .slider-wrapper {
+    box-sizing: border-box;
+    height: 460px;
+    position: relative;
+    width: 870px;
+
+    .gradient {
+      background-image: linear-gradient(to bottom, $color-red-alfa, transparent 35%);
+      height: inherit;
+      position: absolute;
+      width: inherit;
+      z-index: 10;
+    }
+
+    p {
+      @include sans-serif('Open sans', 1.6rem);
+      color: $color-white;
+      font-weight: 700;
+      margin: 20px 45px;
+      position: absolute;
+      text-shadow: 0 0 1px $color-button-text-shadow;
+      z-index: 20;
+    }
+
+    .slider {
+      height: inherit;
+      overflow: hidden;
+      position: relative;
+      width: inherit;
+    }
+
+    .slides {
+      background-position: 0 -120px;
+      height: inherit;
+      opacity: 0;
+      position: absolute;
+      width: inherit;
+    }
+    .slide1 { background-image: url('../images/photo.jpg'); }
+    .slide2 { background-image: url('../images/photo.jpg'); }
+    .slide3 { background-image: url('../images/photo.jpg'); }
+    .slide4 { background-image: url('../images/photo.jpg'); }
+    .slide5 { background-image: url('../images/photo.jpg'); }
+
+    %slide {
+      animation: slider .5s;
+      animation-fill-mode: forwards;
+      transform: scale(1);
+      z-index: 1;
+    }
+
+    input {
+      display: none;
+    }
+
+    @include slide-check(1) { @extend %slide; }
+    @include slide-check(2) { @extend %slide; }
+    @include slide-check(3) { @extend %slide; }
+    @include slide-check(4) { @extend %slide; }
+
+    %controls {
+      background: $color-white;
+    }
+
+    .controls {
+      bottom: 20px;
+      left: 385px;
+      position: absolute;
+      right: 385px;
+      width: auto;
+      z-index: 10;
+
+
+      label {
+        background: $color-button;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        height: 13px;
+        margin: 0 4px;
+        position: relative;
+        transition: .3s;
+        width: 13px;
+
+        &:hover {
+          @extend %controls;
+        }
+      }
+    }
+
+    @include slide-control(1) { @extend %controls; }
+    @include slide-control(2) { @extend %controls; }
+    @include slide-control(3) { @extend %controls; }
+    @include slide-control(4) { @extend %controls; }
+  }
+
+  .news {
+    background: $color-news;
+    flex: 1;
+    padding: 15px 25px 0 30px;
+
+    %news-font {
+      @include sans-serif('Open sans');
+    }
+
+    h3 {
+      @extend %news-font;
+      font-weight: 700;
+    }
+
+    p {
+      @extend %news-font;
+      font-size: .75rem;
+      font-weight: normal;
+      line-height: 1rem;
+      margin-top: 10px;
+
+      a {
+        color: inherit;
+      }
+
+      span {
+        @include sans-serif('Font awesome');
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// -------------ARROW BUTTONS SECTION-----------------------------------------
+// ---------------------------------------------------------------------------
+
+%new-buttons {
+  background-color: $color-news;
+  bottom: 0;
+  height: 42px;
+  position: absolute;
+  transition: .3s;
+  width: 42px;
+}
+
+%new-arrow {
+  background: $color-white;
+  content: '';
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  transform-origin: 100% 50%;
+  width: 20px;
+}
+
+
+.arrow-button1 {
+  @extend %new-buttons;
+  right: 0;
+
+  &:before {
+    @extend %new-arrow;
+    left: 7px;
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    @extend %new-arrow;
+    left: 7px;
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    background: $color-button-hover;
+    cursor: pointer;
+  }
+}
+
+.arrow-button2 {
+  @extend %new-buttons;
+  left: 0;
+
+  &:before {
+    @extend %new-arrow;
+    right: 27px;
+    transform: rotate(135deg);
+  }
+
+  &:after {
+    @extend %new-arrow;
+    right: 27px;
+    transform: rotate(-135deg);
+  }
+
+  &:hover {
+    background: $color-button-hover;
+    cursor: pointer;
+  }
+}
+
+// ----------- STYLE FOR h2 on the page --------------------------------------
+%header2 {
+  @include sans-serif('Open sans', 2rem);
+  border-bottom: 5px solid $color-main;
+  color: $color-main;
+  font-weight: 700;
+}
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// -------------NEW ARTICLES SECTION------------------------------------------
+// ---------------------------------------------------------------------------
+
+.new-articles {
+  height: 540px;
+  margin-top: 50px;
+  overflow: hidden;
+  position: relative;
+
+  h2 {
+    @extend %header2;
+  }
+
+  .new-wrapper {
+    @include flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    position: absolute;
+    transition: .5s;
+    width: 2370px;
+
+
+    .new-illustrate {
+      height: 200px;
+    }
+
+    h3 {
+      @include sans-serif('Open sans', .9rem);
+      color: $color-main;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    h4 {
+      @include sans-serif('Open sans', 1.25rem, 1.25rem);
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    p {
+      @include sans-serif('Open sans', .9rem, 1rem);
+      font-weight: normal;
+      margin-top: 5px;
+
+    }
+
+    .articles {
+      height: 450px;
+      width: 270px;
+
+      &:nth-child(4n+1) {
+        .new-illustrate {
+          background: url('../images/dinosaur.jpg') no-repeat;
+          background-position: -40px -5px;
+        }
+      }
+
+      &:nth-child(4n+2) {
+        .new-illustrate {
+          background: url('../images/cyborg.jpg') no-repeat;
+          background-position: 0 -70px;
+        }
+      }
+
+      &:nth-child(4n+3) {
+        .new-illustrate {
+          background: url('../images/Jesus.jpg') no-repeat;
+          background-position: -25px -15px;
+        }
+      }
+
+      &:nth-child(4n+4) {
+        .new-illustrate {
+          background: url('../images/flowers.jpg') no-repeat;
+          background-position: -85px -115px;
+        }
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// -------------INTERVIEW SECTION---------------------------------------------
+// ---------------------------------------------------------------------------
+.interview {
+  height: 270px;
+  margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+
+
+  h2 {
+    @extend %header2;
+  }
+
+  .person {
+    border-radius: 50%;
+    float: left;
+    height: 133px;
+    margin-right: 20px;
+    width: 133px;
+  }
+
+  .interview-wrapper {
+    @include flex;
+    height: 150px;
+    justify-content: space-between;
+    margin-top: 30px;
+    position: absolute;
+    transition: .5s;
+    width: 2370px;
+  }
+
+  .interviewer {
+    width: 370px;
+
+    &:nth-child(3n+1) {
+      .person {
+        background: url('../images/Fernando.jpg') no-repeat;
+        background-position: -35px -25px;
+      }
+    }
+
+    &:nth-child(3n+2) {
+      .person {
+        background: url('../images/Viktor.jpg') no-repeat;
+        background-position: -35px -15px;
+      }
+    }
+
+    &:nth-child(3n+3) {
+      .person {
+        background: url('../images/Ilya.jpg') no-repeat;
+        background-position: -80px -30px;
+      }
+    }
+  }
+
+  p {
+    @include sans-serif('Open sans', 1.25rem);
+    font-weight: 700;
+    margin-top: 5px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// -------------LIBRARY SECTION-----------------------------------------------
+// ---------------------------------------------------------------------------
+
+
+.library {
+  height: 480px;
+  margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+
+  h2 {
+    @extend %header2;
+  }
+
+  img {
+    height: 237px;
+    margin-top: 30px;
+    width: 170px;
+  }
+
+  %h4p {
+    @include sans-serif('Open sans', .9rem);
+  }
+
+  h4 {
+    @extend %h4p;
+    font-weight: 700;
+  }
+
+  p {
+    @extend %h4p;
+    font-weight: normal;
+  }
+
+  .library-wrapper {
+    @include flex;
+    justify-content: space-between;
+    position: absolute;
+    transition: .3s;
+    width: 2405px;
+  }
+
+  .book {
+    width: 170px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// -------------FOOTER SECTION------------------------------------------------
+// ---------------------------------------------------------------------------
+
+footer {
+  background: $color-main;
+  margin-top: 37px;
+
+  %footer-flex {
+    @include flex;
+  }
+
+  .footer-wrapper {
+    @extend %footer-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+
+    .footer-socials {
+      @extend %footer-flex;
+      justify-content: flex-end;
+
+      a {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .links {
+    flex: 1;
+    margin-left: 40px;
+
+    a {
+      @include sans-serif('Open sans', .9rem);
+      color: $color-white;
+      font-weight: 700;
+      margin-right: 25px;
+      text-decoration: none;
+    }
+
+    p {
+      @include sans-serif('Open sans', .7rem);
+      color: $color-white;
+      font-style: italic;
+      margin-top: 15px;
+    }
+  }
+}
